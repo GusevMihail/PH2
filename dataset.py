@@ -38,7 +38,7 @@ with pd.ExcelFile(table_path) as xlsx:
     df = pd.read_excel(xlsx, sheet_name='Folha1', header=12)
 
 # shortening of column names
-names = dict((name, name.split('\n')[0].replace(' ', '_')) for name in df.columns)
+names = {name: name.split('\n')[0].replace(' ', '_') for name in df.columns}
 df.rename(columns=names, inplace=True)
 
 # set file name as index
@@ -116,6 +116,8 @@ def generate_datasets(test_ratio=0.25, valid_ratio=0.15):
     train_ids, valid_ids = train_test_split(train_ids,
                                             test_size=valid_ratio / (1 - test_ratio),
                                             shuffle=True, random_state=42)
+
+    #TODO сделать стратифицированное разбиение
 
     train_df = df.iloc[train_ids, :]
     valid_df = df.iloc[valid_ids, :]
